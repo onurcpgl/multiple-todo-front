@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+
 const initialState = {
   user: localStorage.getItem("userLoggedIn") || false,
   token: Cookies.get("jwt") || null,
@@ -11,6 +12,7 @@ const authReducer = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
+      console.log("login reducer calıstı");
       state.token = action.payload;
       var decoded = jwt_decode(action.payload);
       state.user = true;
@@ -19,11 +21,13 @@ const authReducer = createSlice({
       Cookies.set("jwt", action.payload);
     },
     logOut: (state, action) => {
+      console.log("logout redureci calıstı");
       state.user = false;
       state.accessToken = null;
       state.userId = null;
-      localStorage.clear("usserLoggedIn");
-      localStorage.clear("userId");
+      localStorage.setItem("userLoggedIn",false);
+      localStorage.setItem("userId",0);
+      
       Cookies.remove("jwt");
     },
   },

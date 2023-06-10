@@ -31,9 +31,20 @@ const updateUser = (values) => {
       return error.response;
     });
 };
+const createUser = (values) => {
+  return axiosClient
+    .post("/user", values)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
 const userService = {
   getProfile,
   getByUser,
   updateUser,
+  createUser
 };
 export default userService;

@@ -5,6 +5,7 @@ import { selectCurrentUser } from "../Redux/Reducers/Auth/AuthReducer";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
+  console.log("sssss", user)
   const location = useLocation();
   return user ? (
     <Outlet />

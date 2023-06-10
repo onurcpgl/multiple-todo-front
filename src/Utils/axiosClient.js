@@ -1,6 +1,9 @@
 import axios from "axios";
 import tokenService from "../Service/tokenService";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
+
 
 const axiosClient = axios.create({
   baseURL: `https://localhost:7088/`,
@@ -31,14 +34,19 @@ axiosClient.interceptors.response.use(
       error.response.status === 401 &&
       originalRequest.url === "https://localhost:7083/login"
     ) {
+     
       const navigate = useNavigate();
       navigate("/login");
+      
       return Promise.reject(error);
     }
-    console.log("response");
+   
     if (error.response.status === 401 && !originalRequest._retry) {
-      localStorage.removeItem("userId");
       localStorage.removeItem("userLoggedIn");
+      localStorage.removeItem("userId");
+      Cookies.remove('jwt');
+      const navigate = useNavigate();
+      navigate(0);
       // originalRequest._retry = true;
       // const refreshToken = tokenService.getToken();
       // return axiosClient

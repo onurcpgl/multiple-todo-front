@@ -14,13 +14,14 @@ function AppRoute() {
       <Route>
         <Route path="" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/teams" element={<Team />} />
+
         </Route>
       </Route>
       <Route path="/Login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="" element={<ProtectedRoute />}>
         <Route path="" element={<RootLayout />}>
+          <Route path="/teams" element={<Team />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile-edit/:slug" element={<EditProfile />} />
           <Route path="/team-todo" element={<Team />} />
