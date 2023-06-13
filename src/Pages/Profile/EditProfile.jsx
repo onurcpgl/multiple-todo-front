@@ -10,7 +10,7 @@ function EditProfile() {
   const [error, setError] = useState(false);
   useEffect(() => {
     (async () => {
-      const result = await userService.getByUser(slug);
+      const result = await userService.getProfile();
 
       formik.setValues(result);
     })();

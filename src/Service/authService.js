@@ -22,13 +22,10 @@ const getCurrentUser = () => {
   const jwtToken = Cookies.get("jwt");
   return jwtToken;
 };
-const GetProfile = (mail, token) => {
+const GetProfile = (token) => {
   const response = axiosClient
     .post(
       "/user-profile",
-      {
-        mail,
-      },
       {
         headers: {
           Authorization: `Bearer ${token}`,

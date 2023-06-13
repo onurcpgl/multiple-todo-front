@@ -42,8 +42,7 @@ axiosClient.interceptors.response.use(
     }
    
     if (error.response.status === 401 && !originalRequest._retry) {
-      localStorage.removeItem("userLoggedIn");
-      localStorage.removeItem("userId");
+      localStorage.removeItem("user");
       Cookies.remove('jwt');
       const navigate = useNavigate();
       navigate(0);

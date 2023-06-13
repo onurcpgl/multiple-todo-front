@@ -1,8 +1,8 @@
 import axiosClient from "../Utils/axiosClient";
 
-const getProfile = (id) => {
+const getProfile = () => {
   return axiosClient
-    .get(`/user-profile/${id}`)
+    .get(`/user-profile`)
     .then((response) => {
       return response;
     })

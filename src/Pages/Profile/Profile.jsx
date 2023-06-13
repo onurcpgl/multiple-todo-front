@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import userService from "../../Service/userService";
 import { useSelector } from "react-redux";
-import { selectCurrentUserId } from "../../Redux/Reducers/Auth/AuthReducer";
+import { selectCurrentUser } from "../../Redux/Reducers/Auth/AuthReducer";
 import todoService from "../../Service/todoService";
 import TodoAdd from "../../Components/Profile/TodoAdd";
 import TodoList from "../../Components/Profile/TodoList";
@@ -11,15 +11,14 @@ function Profile() {
   const [user, setUser] = useState();
   const [addModal, setAddModal] = useState(false);
   const [myTodo, setMyTodo] = useState("");
-  const userId = useSelector(selectCurrentUserId);
+  const userData = useSelector(selectCurrentUser);
 
   useEffect(() => {
     setLoading(true);
-    if (userId) {
+    if (userData) {
       (async () => {
-        const result = await userService.getProfile(userId);
+        const result = await userService.getProfile();
         setUser(result);
-        console.log(result);
         const todos = await todoService.getUserTodos();
         setMyTodo(todos);
         if (result && todos) {
