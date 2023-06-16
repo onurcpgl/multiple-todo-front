@@ -8,6 +8,7 @@ function EditProfile() {
   const [loading, setLoading] = useState(false);
   const [succes, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [image, setImage] = useState(null);
   useEffect(() => {
     (async () => {
       const result = await userService.getProfile();
@@ -21,11 +22,14 @@ function EditProfile() {
       lastName: "",
       mail: "",
       password: "",
+      formFile: null,
     },
     onSubmit: async (values) => {
       setLoading(true);
+      values.formFile = image;
+      console.log(image)
       const result = await userService.updateUser(values);
-      console.log(result);
+
       if (result !== null) {
         setLoading(false);
         setSuccess(true);
@@ -35,7 +39,10 @@ function EditProfile() {
       }
     },
   });
-
+  const imageHandler = (event) => {
+    const file = event.target.files[0];
+    setImage(file)
+  }
   return (
     <div className="flex flex-col justify-center w-full items-center mt-10">
       <div className="flex justify-center items-center relative">
@@ -44,6 +51,7 @@ function EditProfile() {
           src="https://picsum.photos/200/300"
           alt="ProfilImage"
         />
+        <input type="file" accept="image/*" onChange={imageHandler} />
         <MdOutlineAddPhotoAlternate className="absolute top-3 right-3 text-4xl bg-white border-2 border-black p-1 rounded-3xl hover:top-2 cursor-pointer ease-out duration-300" />
       </div>
       {succes && (

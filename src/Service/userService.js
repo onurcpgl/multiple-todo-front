@@ -23,7 +23,11 @@ const getByUser = (id) => {
 };
 const updateUser = (values) => {
   return axiosClient
-    .put("/user-update", values)
+    .put("/user-update", values, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((response) => {
       return response;
     })
@@ -45,6 +49,6 @@ const userService = {
   getProfile,
   getByUser,
   updateUser,
-  createUser
+  createUser,
 };
 export default userService;
