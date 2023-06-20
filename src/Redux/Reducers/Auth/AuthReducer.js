@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
 
 const initialState = {
   user: localStorage.getItem("user") || null,
+  token: Cookies.get("jwt") || null,
+  refreshToken: Cookies.get("refreshToken") || null,
 };
 const authReducer = createSlice({
   name: "auth",
@@ -16,6 +17,7 @@ const authReducer = createSlice({
       Cookies.set("refreshToken", action.payload.refreshToken);
     },
     logOut: (state, action) => {
+      console.log("Çalıştı");
       state.user = false;
       localStorage.removeItem("user");
       Cookies.remove("jwt");
