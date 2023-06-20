@@ -25,7 +25,7 @@ function Login() {
       );
 
       if (response?.result.accessToken) {
-        dispatch(login(response?.result.accessToken));
+        dispatch(login(response?.result));
         setLoading(false);
         navigate("/");
       }

@@ -10,14 +10,16 @@ const authReducer = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      localStorage.setItem("user", true);
       state.user = true;
-      Cookies.set("jwt", action.payload);
+      localStorage.setItem("user", true);
+      Cookies.set("jwt", action.payload.accessToken);
+      Cookies.set("refreshToken", action.payload.refreshToken);
     },
     logOut: (state, action) => {
       state.user = false;
       localStorage.removeItem("user");
       Cookies.remove("jwt");
+      Cookies.remove("refreshToken");
     },
   },
 });

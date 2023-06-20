@@ -24,14 +24,11 @@ const getCurrentUser = () => {
 };
 const GetProfile = (token) => {
   const response = axiosClient
-    .post(
-      "/user-profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    .post("/user-profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((response) => {
       return response;
     })

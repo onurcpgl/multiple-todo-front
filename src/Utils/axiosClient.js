@@ -3,8 +3,6 @@ import tokenService from "../Service/tokenService";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-
-
 const axiosClient = axios.create({
   baseURL: `https://localhost:7088/`,
   withCredentials: true,
@@ -30,36 +28,33 @@ axiosClient.interceptors.response.use(
   function (error) {
     const originalRequest = error.config;
 
-    if (
-      error.response.status === 401 &&
-      originalRequest.url === "https://localhost:7083/login"
-    ) {
-     
-      const navigate = useNavigate();
-      navigate("/login");
-      
-      return Promise.reject(error);
-    }
-   
+    // if (
+    //   error.response.status === 401 &&
+    //   originalRequest.url === "https://localhost:7083/login"
+    // ) {
+    //   const navigate = useNavigate();
+    //   navigate("/login");
+
+    //   return Promise.reject(error);
+    // }
+
     if (error.response.status === 401 && !originalRequest._retry) {
-      localStorage.removeItem("user");
-      Cookies.remove('jwt');
-      const navigate = useNavigate();
-      navigate(0);
-      // originalRequest._retry = true;
-      // const refreshToken = tokenService.getToken();
-      // return axiosClient
-      //   .post("/auth/token", {
-      //     refresh_token: refreshToken,
-      //   })
-      //   .then((res) => {
-      //     if (res.status === 201) {
-      //       tokenService.setToken(res.data);
-      //       axios.defaults.headers.common["Authorization"] =
-      //         "Bearer " + tokenService.getToken();
-      //       return axios(originalRequest);
-      //     }
-      //   });
+      originalRequest._retry = true;
+      const refreshToken = tokenService.refreshToken();
+      console.log(refreshToken);
+      return axiosClient
+        .post("/refresh-token", {
+          refreshToken: refreshToken,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("res-data", res);
+            tokenService.setToken(res.data);
+            axios.defaults.headers.common["Authorization"] =
+              "Bearer " + tokenService.getToken();
+            return axios(originalRequest);
+          }
+        });
     }
     return Promise.reject(error);
   }
