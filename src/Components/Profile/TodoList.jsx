@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function TodoList({ myTodo, setAddModal, addModal, setMyTodo }) {
   const navigate = useNavigate();
   const deleteTodoHandler = async (todoId) => {
+    console.log(todoId);
     const response = await todoService.deleteTodo(todoId);
     const result = myTodo.filter((item) => {
       if (item.id !== todoId) {

@@ -19,15 +19,18 @@ function Profile() {
       (async () => {
         const result = await userService.getProfile();
         setUser(result);
-        const todos = await todoService.getUserTodos();
-        setMyTodo(todos);
-        if (result && todos) {
-          setLoading(false);
-        }
+
+        getTodos();
       })();
     }
   }, []);
-
+  const getTodos = async () => {
+    const todos = await todoService.getUserTodos();
+    setMyTodo(todos);
+    if (todos) {
+      setLoading(false);
+    }
+  }
   return (
     !loading && (
       <>
@@ -36,6 +39,7 @@ function Profile() {
           setAddModal={setAddModal}
           setMyTodo={setMyTodo}
           myTodo={myTodo}
+          getTodos={getTodos}
         />
         <div className="flex justify-between w-full mt-6 gap-10">
           <div className="w-full max-w-sm h-96 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-1">

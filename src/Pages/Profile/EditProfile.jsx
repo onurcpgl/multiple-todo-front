@@ -12,8 +12,8 @@ function EditProfile() {
   useEffect(() => {
     (async () => {
       const result = await userService.getProfile();
-
-      formik.setValues(result);
+      console.log(result);
+      formik.setValues({ ...result });
     })();
   }, [slug]);
   const formik = useFormik({

@@ -49,9 +49,9 @@ axiosClient.interceptors.response.use(
           })
           .then((res) => {
             if (res.message === "200") {
+              originalRequest._retry = true;
               const dispatch = store.dispatch;
               dispatch(login(res.response));
-
               axios.defaults.headers.common["Authorization"] =
                 "Bearer " + tokenService.getToken();
               originalRequest.headers["Authorization"] =

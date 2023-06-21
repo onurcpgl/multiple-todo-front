@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import todoService from "../../Service/todoService";
 import { useNavigate } from "react-router-dom";
-function TodoAdd({ addModal, setAddModal, setMyTodo, myTodo }) {
+function TodoAdd({ addModal, setAddModal, setMyTodo, myTodo, getTodos }) {
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
   const navigate = useNavigate();
@@ -20,10 +20,13 @@ function TodoAdd({ addModal, setAddModal, setMyTodo, myTodo }) {
       };
       if (response) {
         setMyTodo([fakeTodo, ...myTodo]);
+        console.log("eklendi");
         formik.resetForm();
         setAddModal(false);
         setAlertSuccess(true);
+        getTodos();
       } else {
+        console.log("çıktı");
         formik.resetForm();
         setAlertError(true);
       }

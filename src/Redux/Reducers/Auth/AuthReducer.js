@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { act } from "react-dom/test-utils";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   user: localStorage.getItem("user") || null,
@@ -17,7 +19,6 @@ const authReducer = createSlice({
       Cookies.set("refreshToken", action.payload.refreshToken);
     },
     logOut: (state, action) => {
-      console.log("Çalıştı");
       state.user = false;
       localStorage.removeItem("user");
       Cookies.remove("jwt");
