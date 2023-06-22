@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import teamService from "../../Service/teamService";
+import { AiFillSetting } from "react-icons/ai";
 function TeamList() {
   const [team, setTeam] = useState(null);
   useEffect(() => {
@@ -13,7 +14,11 @@ function TeamList() {
     <div className="mt-5 flex gap-6">
       {team?.map((item) => (
         <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <a href="#">
+          <a href={`/team-edit/${item.id}`} className="relative">
+            {
+              item.owner !== null &&
+              < AiFillSetting className="absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-white" />
+            }
             <img
               className="rounded-t-lg w-full"
               src="https://picsum.photos/380/300"

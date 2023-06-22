@@ -8,6 +8,7 @@ import Team from "../Pages/Team/Team";
 import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../Pages/Profile/EditProfile";
 import MyTeam from "../Pages/MyTeamTodo/MyTeam";
+import TeamEdit from "../Components/Team/TeamEdit";
 function AppRoute() {
   return (
     <Routes>
@@ -22,6 +23,7 @@ function AppRoute() {
       <Route path="" element={<ProtectedRoute />}>
         <Route path="" element={<RootLayout />}>
           <Route path="/teams" element={<Team />} />
+          <Route path="/team-edit/:slug" element={<TeamEdit />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile-edit/:slug" element={<EditProfile />} />
           <Route path="/team-todo" element={<Team />} />
