@@ -8,21 +8,23 @@ function TeamEdit() {
     const { slug } = useParams();
     const [loading, setLoading] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const [data, setData] = useState();
     const [succes, setSuccess] = useState(false);
     const [deletee, setDelete] = useState(false);
     const [error, setError] = useState(false);
     const [image, setImage] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
-        (async () => {
-            const result = await teamService.getByTeam(slug);
-            if (!result) {
-                navigate("/teams")
-            }
-            formik.setValues({ ...result });
-        })();
+        getData();
     }, [slug]);
-
+    const getData = async () => {
+        const result = await teamService.getByTeam(slug);
+        if (!result) {
+            navigate("/teams")
+        }
+        setData(result);
+        formik.setValues({ ...result });
+    }
     const formik = useFormik({
         initialValues: {
             id: "",
@@ -38,6 +40,7 @@ function TeamEdit() {
             if (result !== null) {
                 setLoading(false);
                 setSuccess(true);
+                getData();
             } else {
                 setLoading(false);
                 setError(true);
@@ -67,7 +70,7 @@ function TeamEdit() {
             <div className="flex justify-center items-center relative flex-col">
                 <img
                     className=" h-48 w-48 mb-3 rounded-full shadow-lg"
-                    src="https://picsum.photos/200/300"
+                    src={data?.teamImage ? data?.teamImage : "https://picsum.photos/200/300"}
                     alt="ProfilImage"
                 />
                 <input type="file" accept="image/*" onChange={imageHandler} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import teamService from "../../Service/teamService";
-import { AiFillSetting } from "react-icons/ai";
+import { FcSettings } from "react-icons/fc";
 function TeamList() {
   const [team, setTeam] = useState(null);
   useEffect(() => {
@@ -17,11 +17,11 @@ function TeamList() {
           <a href={`/team-edit/${item.id}`} className="relative">
             {
               item.owner !== null &&
-              < AiFillSetting className="absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-white" />
+              <FcSettings className="absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-white" />
             }
             <img
-              className="rounded-t-lg w-full"
-              src="https://picsum.photos/380/300"
+              className="rounded-t-lg w-96 h-48 object-cover"
+              src={item.teamImage ? item.teamImage : "https://picsum.photos/id/227/400/300"}
               alt=""
             />
           </a>
@@ -35,10 +35,10 @@ function TeamList() {
               {item.description}
             </p>
             <a
-              href="#+"
+              href={`/teams-detail/${item.name}`}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Üyeleri gör
+              Takım detay
               <svg
                 aria-hidden="true"
                 className="w-4 h-4 ml-2 -mr-1"

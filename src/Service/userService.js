@@ -21,6 +21,7 @@ const getByUser = (id) => {
       return error.response;
     });
 };
+
 const updateUser = (values) => {
   return axiosClient
     .put("/user-update", values, {
@@ -35,6 +36,7 @@ const updateUser = (values) => {
       return error.response;
     });
 };
+
 const createUser = (values) => {
   return axiosClient
     .post("/user", values)
@@ -45,10 +47,23 @@ const createUser = (values) => {
       return error.response;
     });
 };
+
+const getAllUser = () => {
+  return axiosClient
+    .get("/all-user")
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 const userService = {
   getProfile,
   getByUser,
   updateUser,
   createUser,
+  getAllUser,
 };
 export default userService;

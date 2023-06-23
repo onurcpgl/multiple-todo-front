@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../Pages/Home/Home";
+import Home from "../Pages/MyTeamTodo/Home/Home";
 import RootLayout from "../Layouts/RootLayout";
 import Profile from "../Pages/Profile/Profile";
 import Login from "../Components/Login";
@@ -9,13 +9,14 @@ import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../Pages/Profile/EditProfile";
 import MyTeam from "../Pages/MyTeamTodo/MyTeam";
 import TeamEdit from "../Components/Team/TeamEdit";
+import TeamDetail from "../Pages/Team/TeamDetail";
+
 function AppRoute() {
   return (
     <Routes>
       <Route>
         <Route path="" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
-
         </Route>
       </Route>
       <Route path="/Login" element={<Login />} />
@@ -23,6 +24,7 @@ function AppRoute() {
       <Route path="" element={<ProtectedRoute />}>
         <Route path="" element={<RootLayout />}>
           <Route path="/teams" element={<Team />} />
+          <Route path="/teams-detail/:slug" element={<TeamDetail />} />
           <Route path="/team-edit/:slug" element={<TeamEdit />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile-edit/:slug" element={<EditProfile />} />
