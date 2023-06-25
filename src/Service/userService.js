@@ -58,12 +58,22 @@ const getAllUser = () => {
       return error;
     });
 };
-
+const checkNotify = () => {
+  return axiosClient
+    .get("/check-notify")
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 const userService = {
   getProfile,
   getByUser,
   updateUser,
   createUser,
   getAllUser,
+  checkNotify,
 };
 export default userService;

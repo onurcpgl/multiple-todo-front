@@ -67,6 +67,16 @@ const deleteTeam = (id) => {
       return error.response;
     });
 };
+const userInvite = (value) => {
+  return axiosClient
+    .post(`/user-invite`, value)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
 const userService = {
   getTeam,
   saveTeam,
@@ -74,5 +84,6 @@ const userService = {
   getByTeam,
   updateTeam,
   deleteTeam,
+  userInvite,
 };
 export default userService;

@@ -1,9 +1,10 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "../Assets/pencil.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import userService from "../Service/userService";
 
 import { logOut, selectCurrentUser } from "../Redux/Reducers/Auth/AuthReducer";
 const navigation = [
@@ -20,7 +21,13 @@ export default function Header() {
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    checkNotify();
+  }, [])
+  const checkNotify = async () => {
+    const result = await userService.checkNotify();
+    console.log(result);
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
