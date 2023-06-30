@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "../Assets/pencil.png";
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import userService from "../Service/userService";
 
 import { logOut, selectCurrentUser } from "../Redux/Reducers/Auth/AuthReducer";
+import NotifyModal from "./NotifyModal";
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
   { name: "Teams", href: "/teams", current: false },
@@ -18,7 +19,11 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const [notifyModal, setNotifyModal] = useState();
+  const [notifyCount, setNotifyCount] = useState(0);
+  const [notifyData, setNotifyData] = useState();
   const navigate = useNavigate();
+
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,8 +31,14 @@ export default function Header() {
   }, [])
   const checkNotify = async () => {
     const result = await userService.checkNotify();
-    console.log(result);
+    setNotifyCount(result.response.length)
+    setNotifyData(result.response);
   }
+  const handleClick = () => {
+    setNotifyModal(!notifyModal);
+    setNotifyCount(0);
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -80,14 +91,24 @@ export default function Header() {
               </div>
               {currentUser ? (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                  <button
-                    type="button"
-                    className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  <div className="relative">
 
+                    <button
+                      type="button"
+                      onClick={() => handleClick()}
+                      className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    >
+                      <span className="sr-only">View notifications</span>
+                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      {
+                        notifyCount > 0 && <span className="w-2 h-2 absolute right-0 top-0 bg-white rounded-xl"></span>
+                      }
+
+                    </button>
+                    {
+                      notifyModal && <NotifyModal data={notifyData} setNotifyModal={setNotifyModal} checkNotify={checkNotify} />
+                    }
+                  </div>
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-3">
                     <div>
@@ -176,7 +197,8 @@ export default function Header() {
             </div>
           </Disclosure.Panel>
         </>
-      )}
-    </Disclosure>
+      )
+      }
+    </Disclosure >
   );
 }

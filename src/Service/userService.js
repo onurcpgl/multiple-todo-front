@@ -68,6 +68,16 @@ const checkNotify = () => {
       return error;
     });
 };
+const notifyHandler = (values) => {
+  return axiosClient
+    .post("/notify-handler",values)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 const userService = {
   getProfile,
   getByUser,
@@ -75,5 +85,6 @@ const userService = {
   createUser,
   getAllUser,
   checkNotify,
+  notifyHandler
 };
 export default userService;
