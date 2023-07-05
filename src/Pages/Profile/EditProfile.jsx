@@ -7,21 +7,23 @@ function EditProfile() {
   const { slug } = useParams();
   const [loading, setLoading] = useState(false);
   const [succes, setSuccess] = useState(false);
+  const [profileImage, setProfileImage] = useState();
   const [error, setError] = useState(false);
   const [image, setImage] = useState(null);
   useEffect(() => {
-    (async () => {
-      const result = await userService.getProfile();
-      console.log(result);
-      formik.setValues({ ...result });
-    })();
+    getProfileHandler()
   }, [slug]);
+  const getProfileHandler = async () => {
+    const result = await userService.getProfile();
+
+    setProfileImage(result.teamImage);
+    formik.setValues({ ...result });
+  }
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       mail: "",
-      password: "",
       formFile: null,
     },
     onSubmit: async (values) => {
@@ -32,9 +34,12 @@ function EditProfile() {
 
       if (result !== null) {
         setLoading(false);
+        setProfileImage(result.teamImage);
+        getProfileHandler();
         setSuccess(true);
       } else {
         setLoading(false);
+        getProfileHandler();
         setError(true);
       }
     },
@@ -45,67 +50,70 @@ function EditProfile() {
   }
   return (
     <div className="flex flex-col justify-center w-full items-center mt-10">
-      <div className="flex justify-center items-center relative">
-        <img
-          className=" h-48 w-48 mb-3 rounded-full shadow-lg"
-          src="https://picsum.photos/200/300"
-          alt="ProfilImage"
-        />
-        <input type="file" accept="image/*" onChange={imageHandler} />
-        <MdOutlineAddPhotoAlternate className="absolute top-3 right-3 text-4xl bg-white border-2 border-black p-1 rounded-3xl hover:top-2 cursor-pointer ease-out duration-300" />
+      <div className="flex flex-col">
+        <div className="flex justify-center items-center relative flex-col">
+          <img
+            className=" h-48 w-48 mb-3 rounded-full shadow-lg"
+            src={profileImage ? profileImage : "https://walyou.com/wp-content/uploads//2010/12/facebook-profile-picture-no-pic-avatar.jpg"}
+            alt="ProfilImage"
+          />
+          <input type="file" accept="image/*" onChange={imageHandler} />
+          <MdOutlineAddPhotoAlternate className="absolute top-3 right-3 text-4xl bg-white border-2 border-black p-1 rounded-3xl hover:top-2 cursor-pointer ease-out duration-300" />
+        </div>
+        <div>  {succes && (
+          <div
+            class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert"
+            onClick={() => setSuccess(false)}
+          >
+            <svg
+              aria-hidden="true"
+              class="flex-shrink-0 inline w-5 h-5 mr-3"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div>
+              <span class="font-medium">Güncelleme başarılı!</span> Güncelleme
+              işlemi başarılı.
+            </div>
+          </div>
+        )}
+          {error && (
+            <div
+              class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+              role="alert"
+              onClick={() => setError(false)}
+            >
+              <svg
+                aria-hidden="true"
+                class="flex-shrink-0 inline w-5 h-5 mr-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">Hata!</span> Değişiklikler yapılamadı, bir
+                hata meydana geldi.
+              </div>
+            </div>
+          )}</div>
       </div>
-      {succes && (
-        <div
-          class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-          role="alert"
-          onClick={() => setSuccess(false)}
-        >
-          <svg
-            aria-hidden="true"
-            class="flex-shrink-0 inline w-5 h-5 mr-3"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <span class="sr-only">Info</span>
-          <div>
-            <span class="font-medium">Güncelleme başarılı!</span> Güncelleme
-            işlemi başarılı.
-          </div>
-        </div>
-      )}
-      {error && (
-        <div
-          class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-          role="alert"
-          onClick={() => setError(false)}
-        >
-          <svg
-            aria-hidden="true"
-            class="flex-shrink-0 inline w-5 h-5 mr-3"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <span class="sr-only">Info</span>
-          <div>
-            <span class="font-medium">Hata!</span> Değişiklikler yapılamadı, bir
-            hata meydana geldi.
-          </div>
-        </div>
-      )}
+
       <div className="p-6 mt-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96">
         <form onSubmit={formik.handleSubmit} className="w-full">
           <label
@@ -150,20 +158,7 @@ function EditProfile() {
             onChange={formik.handleChange}
             value={formik.values.mail}
           />
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
+
           {loading ? (
             <button
               type="submit"

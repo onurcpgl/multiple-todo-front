@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import teamService from "../../Service/teamService";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import teamSimple from "../../Assets/Team/teamsimple.jpg";
 
 function TeamEdit() {
     const { slug } = useParams();
@@ -69,8 +69,8 @@ function TeamEdit() {
         <div className="flex flex-col justify-center w-full items-center mt-10">
             <div className="flex justify-center items-center relative flex-col">
                 <img
-                    className=" h-48 w-48 mb-3 rounded-full shadow-lg"
-                    src={data?.teamImage ? data?.teamImage : "https://picsum.photos/200/300"}
+                    className=" h-48 w-96 mb-3 rounded-sm shadow-lg"
+                    src={data?.teamImage ? data?.teamImage : teamSimple}
                     alt="ProfilImage"
                 />
                 <input type="file" accept="image/*" onChange={imageHandler} />

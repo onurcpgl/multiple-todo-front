@@ -5,8 +5,10 @@ import { selectCurrentUser } from "../../Redux/Reducers/Auth/AuthReducer";
 import todoService from "../../Service/todoService";
 import TodoAdd from "../../Components/Profile/TodoAdd";
 import TodoList from "../../Components/Profile/TodoList";
+import ResetPassword from "./ResetPassword";
 function Profile() {
   const [loading, setLoading] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
   const [user, setUser] = useState();
   const [addModal, setAddModal] = useState(false);
@@ -19,7 +21,6 @@ function Profile() {
       (async () => {
         const result = await userService.getProfile();
         setUser(result);
-
         getTodos();
       })();
     }
@@ -41,8 +42,15 @@ function Profile() {
           myTodo={myTodo}
           getTodos={getTodos}
         />
-        <div className="flex justify-between w-full mt-6 gap-10">
+
+        <div className="flex w-full mt-6 gap-10 relative items-start justify-center">
+          {
+            passwordModal &&
+
+            <ResetPassword setPasswordModal={setPasswordModal} />
+          }
           <div className="w-full max-w-sm h-96 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-1">
+
             <div className="flex justify-end px-4 pt-4 relative">
               <button
                 onClick={() => setProfileModal(!profileModal)}
@@ -81,12 +89,12 @@ function Profile() {
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    <p
+                      onClick={() => setPasswordModal(!passwordModal)}
+                      className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                     >
-                      Export Data
-                    </a>
+                      Change Password
+                    </p>
                   </li>
                   <li>
                     <a
@@ -102,7 +110,7 @@ function Profile() {
             <div className="flex flex-col items-center pb-10">
               <img
                 className="w-24 h-24 mb-3 rounded-full shadow-lg"
-                src="/docs/images/people/profile-picture-3.jpg"
+                src={user?.teamImage ? user?.teamImage : "https://walyou.com/wp-content/uploads//2010/12/facebook-profile-picture-no-pic-avatar.jpg"}
                 alt="Bonnie image"
               />
               <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
@@ -134,6 +142,7 @@ function Profile() {
             setAddModal={setAddModal}
             setMyTodo={setMyTodo}
           />
+
         </div>
       </>
     )

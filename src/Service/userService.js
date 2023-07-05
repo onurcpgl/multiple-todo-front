@@ -70,7 +70,17 @@ const checkNotify = () => {
 };
 const notifyHandler = (values) => {
   return axiosClient
-    .post("/notify-handler",values)
+    .post("/notify-handler", values)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+const changePassword = (values) => {
+  return axiosClient
+    .post("/change-password", values)
     .then((response) => {
       return response;
     })
@@ -85,6 +95,7 @@ const userService = {
   createUser,
   getAllUser,
   checkNotify,
-  notifyHandler
+  notifyHandler,
+  changePassword,
 };
 export default userService;

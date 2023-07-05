@@ -77,6 +77,36 @@ const userInvite = (value) => {
       return error.response;
     });
 };
+const teamMember = (id) => {
+  return axiosClient
+    .get(`/team-member/${id}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
+const notTeamMember = (teamSlug) => {
+  return axiosClient
+    .get(`/get-team-member/${teamSlug}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
+const teamOwner = (teamId) => {
+  return axiosClient
+    .get(`/team-owner/${teamId}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 const userService = {
   getTeam,
   saveTeam,
@@ -85,5 +115,8 @@ const userService = {
   updateTeam,
   deleteTeam,
   userInvite,
+  teamMember,
+  notTeamMember,
+  teamOwner,
 };
 export default userService;
