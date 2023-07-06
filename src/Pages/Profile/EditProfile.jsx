@@ -29,7 +29,6 @@ function EditProfile() {
     onSubmit: async (values) => {
       setLoading(true);
       values.formFile = image;
-      console.log(image)
       const result = await userService.updateUser(values);
 
       if (result !== null) {

@@ -18,7 +18,7 @@ function Register() {
         },
         onSubmit: async (values, { resetForm }) => {
             const result = await userService.createUser(values);
-            console.log(result);
+
             if (result) {
                 resetForm();
                 setAlert(result);

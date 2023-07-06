@@ -9,25 +9,42 @@ import teamService from "../../Service/teamService";
 function TeamDetail() {
     const [teamMembers, setTeamMembers] = useState();
     const [teamOwner, setTeamOwner] = useState();
+    const [isAdmin, setIsAdmin] = useState(false);
     const { slug } = useParams();
 
     const teamMember = async () => {
         const result = await teamService.teamMember(slug);
         setTeamMembers(result)
-        console.log("selami", result);
     }
     const getTeamOwner = async () => {
         const owner = await teamService.teamOwner(slug);
-        console.log("owner", owner)
         setTeamOwner(owner);
     }
+    const isAdminHandler = async () => {
+        const admin = await teamService.isAdmin(slug);
+        setIsAdmin(admin);
+    }
     useEffect(() => {
+        isAdminHandler();
         teamMember();
         getTeamOwner();
     }, [])
+
     return (
         <div className='mt-5 flex gap-6'>
             <div className='w-3/4'>
+                <div className='w-full flex justify-between'>
+                    <p className='text-3xl font-bold opacity-60'>Takım görevleri:</p>
+                    {isAdmin &&
+
+                        <button
+                            type='button'
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        >
+                            Görev Ekle
+                        </button>
+                    }
+                </div>
                 <TeamTodo />
             </div>
             <div className='w-1/4'>

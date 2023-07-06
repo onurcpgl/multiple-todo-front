@@ -6,12 +6,16 @@ import todoService from "../../Service/todoService";
 import TodoAdd from "../../Components/Profile/TodoAdd";
 import TodoList from "../../Components/Profile/TodoList";
 import ResetPassword from "./ResetPassword";
+import { useFormik } from "formik";
+import TodoEdit from "../../Components/Profile/TodoEdit";
 function Profile() {
   const [loading, setLoading] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
+  const [editTodoValue, setEditTodoValue] = useState();
   const [user, setUser] = useState();
   const [addModal, setAddModal] = useState(false);
+  const [editTodo, setEditTodo] = useState(false);
   const [myTodo, setMyTodo] = useState("");
   const userData = useSelector(selectCurrentUser);
 
@@ -32,6 +36,8 @@ function Profile() {
       setLoading(false);
     }
   }
+
+
   return (
     !loading && (
       <>
@@ -43,13 +49,18 @@ function Profile() {
           getTodos={getTodos}
         />
 
+
         <div className="flex w-full mt-6 gap-10 relative items-start justify-center">
           {
             passwordModal &&
 
             <ResetPassword setPasswordModal={setPasswordModal} />
           }
-          <div className="w-full max-w-sm h-96 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-1">
+          {
+            editTodo &&
+            <TodoEdit setEditTodo={setEditTodo} editTodoValue={editTodoValue} getTodos={getTodos} />
+          }
+          <div className="w-1/4 max-w-sm h-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-1">
 
             <div className="flex justify-end px-4 pt-4 relative">
               <button
@@ -141,6 +152,9 @@ function Profile() {
             addModal={addModal}
             setAddModal={setAddModal}
             setMyTodo={setMyTodo}
+            getTodos={getTodos}
+            setEditTodo={setEditTodo}
+            setEditTodoValue={setEditTodoValue}
           />
 
         </div>

@@ -29,7 +29,6 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   function (response) {
-    console.log(response);
     return response.data;
   },
   function (error) {
@@ -37,10 +36,7 @@ axiosClient.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refresh = tokenService.refreshToken();
-      if (!refresh) {
-        const dispatch = useDispatch();
-        dispatch(logOut());
-      } else {
+      if (refresh) {
         return axiosClient
           .post("refresh-token", refresh, {
             headers: {
@@ -67,6 +63,9 @@ axiosClient.interceptors.response.use(
             dispatch(logOut());
             return Promise.reject(error);
           });
+      } else {
+        const dispatch = useDispatch();
+        dispatch(logOut());
       }
     }
 

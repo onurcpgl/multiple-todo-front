@@ -12,9 +12,7 @@ function TeamAdd() {
       description: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      console.log(values)
       const result = await teamService.saveTeam(values);
-      console.log(result);
       resetForm();
     },
   });

@@ -22,6 +22,7 @@ export default function Header() {
   const [notifyModal, setNotifyModal] = useState();
   const [notifyCount, setNotifyCount] = useState(0);
   const [notifyData, setNotifyData] = useState();
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -31,6 +32,8 @@ export default function Header() {
   }, [])
   const checkNotify = async () => {
     const result = await userService.checkNotify();
+    const user = await userService.getProfile();
+    setUser(user)
     setNotifyCount(result.response.length)
     setNotifyData(result.response);
   }
@@ -116,7 +119,7 @@ export default function Header() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={user?.teamImage ? user?.teamImage : "https://walyou.com/wp-content/uploads//2010/12/facebook-profile-picture-no-pic-avatar.jpg"}
                           alt=""
                         />
                       </Menu.Button>

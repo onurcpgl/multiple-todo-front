@@ -10,7 +10,6 @@ function UserList() {
         const result = await teamService.notTeamMember(slug);
         if (result) {
             setUserList(result);
-            console.log(result);
         }
     }
 

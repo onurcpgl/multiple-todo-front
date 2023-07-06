@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import teamService from "../../Service/teamService";
-import { FcSettings } from "react-icons/fc";
+
+import { FiSettings } from "react-icons/fi";
 import teamSimple from "../../Assets/Team/teamsimple.jpg";
+import { useNavigate } from "react-router-dom";
 function TeamList() {
   const [team, setTeam] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       const result = await teamService.getTeam();
@@ -15,27 +18,28 @@ function TeamList() {
       {team?.map((item, i) => (
         <div key={i} className="h-96 w-80 mt-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           {
-            item.ownerId === item.owner?.id ? <a href={`/team-edit/${item.id}`} className="relative">
-              {
-                item.owner !== null &&
-                <FcSettings className="absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-white" />
-              }
-              <img
-                className="rounded-t-lg w-96 h-48 object-cover"
-                src={item.teamImage ? item.teamImage : teamSimple}
-                alt=""
-              />
-            </a> : <div className="relative">
-              {
-                item.owner !== null &&
-                <FcSettings className="absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-white" />
-              }
-              <img
-                className="rounded-t-lg w-96 h-48 object-cover"
-                src={item.teamImage ? item.teamImage : teamSimple}
-                alt=""
-              />
-            </div>
+            item.ownerId === item.owner?.id ?
+              <div className="relative">
+                {
+                  item.owner !== null &&
+                  <FiSettings onClick={() => navigate(`/team-edit/${item.id}`)} className="cursor-pointer absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-black bg-white rounded-full p-1 " />
+                }
+                <img
+                  className="rounded-t-lg w-96 h-48 object-cover"
+                  src={item.teamImage ? item.teamImage : teamSimple}
+                  alt=""
+                />
+              </div> : <div className="relative">
+                {
+                  item.owner !== null &&
+                  <FiSettings onClick={() => navigate(`/team-edit/${item.id}`)} className="cursor-pointer absolute right-2 top-2 text-4xl hover:scale-125 duration-150  text-black bg-white rounded-full p-1" />
+                }
+                <img
+                  className="rounded-t-lg w-96 h-48 object-cover"
+                  src={item.teamImage ? item.teamImage : teamSimple}
+                  alt=""
+                />
+              </div>
           }
 
           <div className="p-5 h-2/4 flex flex-col justify-between">

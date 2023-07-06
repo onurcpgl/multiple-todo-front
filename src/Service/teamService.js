@@ -107,6 +107,16 @@ const teamOwner = (teamId) => {
       return error;
     });
 };
+const isAdmin = (teamId) => {
+  return axiosClient
+    .get(`/is-admin/${teamId}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 const userService = {
   getTeam,
   saveTeam,
@@ -118,5 +128,6 @@ const userService = {
   teamMember,
   notTeamMember,
   teamOwner,
+  isAdmin,
 };
 export default userService;

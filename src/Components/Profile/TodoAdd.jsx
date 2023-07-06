@@ -20,13 +20,11 @@ function TodoAdd({ addModal, setAddModal, setMyTodo, myTodo, getTodos }) {
       };
       if (response) {
         setMyTodo([fakeTodo, ...myTodo]);
-        console.log("eklendi");
         formik.resetForm();
         setAddModal(false);
         setAlertSuccess(true);
         getTodos();
       } else {
-        console.log("çıktı");
         formik.resetForm();
         setAlertError(true);
       }

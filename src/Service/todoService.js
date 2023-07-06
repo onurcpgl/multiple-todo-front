@@ -40,10 +40,21 @@ const deleteTodo = async (todoId) => {
       return error.response;
     });
 };
+const updateTodo = async (value) => {
+  return await axiosClient
+    .put(`/todo-update`, value)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
 const todoService = {
   getTodo,
   getUserTodos,
   saveTodo,
   deleteTodo,
+  updateTodo,
 };
 export default todoService;
